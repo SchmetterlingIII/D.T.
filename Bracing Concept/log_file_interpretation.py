@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 from matplotlib import animation
+import math
 
 """Issues brought up
     1. can be more efficient with the csv module I imported
@@ -30,22 +31,39 @@ with open("sensor_log.csv", mode = "r") as log_file:
     y = []
     z = []
     
+    
+    
     for i in log_file_list:
         coordinate = i.split(",")
         
         if len(coordinate) >= 4:
             try:
-                x.append(float(coordinate[1]))
-                y.append(float(coordinate[2]))
-                z.append(float(coordinate[3]))
+                local_x = float(coordinate[1])
+                local_y = float(coordinate[2])
+                local_z = float(coordinate[3])
+                
+                x.append(local_x)
+                y.append(local_y)
+                z.append(local_z)
                 
                 # getting the tilts angles from these, in radians
+                local_tilt_xz = math.atan2(local_z, local_x)
+                local_tilt_xy = math.atan2(local_y, local_x)
+                local_tilt_zy = math.atan2(local_z, local_y)
+                
+                print(f"-- {local_tilt_xz}, {local_tilt_xy}, {local_tilt_zy} --")
             
             except ValueError:
                 print("Input {i} is invalid") # an almost redundant prompt
+                                
+                                
+
+"""
 
         ax.scatter(x,y,z)
         plt.pause(0.1)  
     plt.show()
+    
+"""
                 
 
