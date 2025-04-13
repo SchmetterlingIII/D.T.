@@ -14,7 +14,31 @@ import math
         e. critical tilt angles
         f. maximum acceleration values beyond which we ignore (error handling?)
         
-    """ 
+    probably need this for the .csv thing:
+        https://docs.python.org/3/library/csv.html
+        
+    """
+
+
+class AccelerometerData:
+    def __init__(self, filePath):
+        self.filePath =
+        
+    def load_data(self):
+        
+    def calculate_tilt_angles(self):
+        
+    def normalise_data(self):
+
+
+class AccelerometerVisualiser:
+    def __init__(self, data):
+        self.data = data
+        self.fig = None # I have no idea why I am doing that
+        self.ax = None  # Not a scooby doo about this either
+    def 
+        
+        
 fig = plt.figure()
 ax = fig.add_subplot(projection='3d')
 
@@ -30,8 +54,6 @@ with open("sensor_log.csv", mode = "r") as log_file:
     x = []
     y = []
     z = []
-    
-    
     
     for i in log_file_list:
         coordinate = i.split(",")
@@ -55,9 +77,7 @@ with open("sensor_log.csv", mode = "r") as log_file:
             
             except ValueError:
                 print("Input {i} is invalid") # an almost redundant prompt
-                                
-                                
-
+    
 """
 
         ax.scatter(x,y,z)
