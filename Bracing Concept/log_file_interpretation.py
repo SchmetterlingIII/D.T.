@@ -79,17 +79,17 @@ class AccelerometerData:
             
         
         for i in range(len(self.x)):
-            acc_unit_vector = []
-            mag_acc = math.hypot(self.x, self.y, self.z)
-            unit_x, unit_y, unit_z = self.x/mag_acc, self.y/mag_acc, self.z/mag_acc
-            acc_unit_vector.append(unit_x, unit_y_, unit_z)
+            mag_acc = math.hypot(self.x[i], self.y[i], self.z[i])
+            unit_x, unit_y, unit_z = self.x[i]/mag_acc, self.y[i]/mag_acc, self.z[i]/mag_acc
+            acc_unit_vector = (unit_x, unit_y, unit_z)
             self.unit_vector.append(acc_unit_vector)
             
         return self
     
 
 test = AccelerometerData("sensor_log.csv")
-test.load_data()
+test.normalise_data()
+print(test.unit_vector)
 
 
 
