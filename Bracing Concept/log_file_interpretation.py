@@ -92,26 +92,62 @@ test.normalise_data()
 print(test.unit_vector)
 
 
-
-"""
 class AccelerometerVisualiser:
     def __init__(self, data):
         self.data = data
         self.fig = None # I have no idea why I am doing that
         self.ax = None  # Not a scooby doo about this either
-    def 
+    def setup_mpl(self):
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(projection='3d')
+        self.ax.set_xlabel('X Label')
+        self.ax.set_ylabel('Y Label')
+        self.ax.set_zlabel('Z Label')
+        return self
+    
+    def acceleration_input():
         
-        
-fig = plt.figure()
-ax = fig.add_subplot(projection='3d')
+    def tilt_input():
+    
+    
+    
+def main():
+    accel_data = AccelerometerData("sensor_log.csv").load_data()
+    
+    visualiser = AccelerometerVisualiser(accel_data)
+    
+    to_choose = True
+    while to_choose:
+        try:
+            choices = int(input("Choose the type of visualisation for your sensor data:\n1. Vector Visualisation With Acceleration Data\n2. Vector Visualisation With Tilt Data\n\nPress '0' to quit."))
+            if choices == 0:
+                print("Thank you for participating.")
+                to_choose = False
+                break
+            
+            elif choices != 1 or != 2:
+                print("Choose a number in range.")
+                
+            elif choices == 1:
+                visualiser.acceleration_input()
+                plt.show()
+                to_choose = False
+                break
+            
+            elif choices == 2:
+                visualiser.tilt_input()
+                plt.show()
+                to_choose = False
+                break
+                
+        except ValueError:
+            print("Enter an integer. Try again.")
+    
+main()
+"""
+Note: I have seen the below be done but I am unsure of its relevance here -- 
+if __name__ == "__main__": # I have seen this be done and I think it's kinda silly 
+    main()
 
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
-
-
-        ax.scatter(x,y,z)
-        plt.pause(0.1)  
-    plt.show()
 """         
 
