@@ -84,7 +84,10 @@ class AccelerometerData:
             acc_unit_vector = (unit_x, unit_y, unit_z)
             self.unit_vector.append(acc_unit_vector)
             
-        return self1
+
+            
+        return self
+
 
 class AccelerometerVisualiser:
     def __init__(self, data):
@@ -117,12 +120,12 @@ class AccelerometerVisualiser:
     def display_tilt_angles(self):
         # First ensure tilt angles are calculated
         if not hasattr(self.data, 'tilt_xz') or not self.data.tilt_xz:
-            self.data.calculate_tilt_angles() # calls back into the old boy to run its think
+            self.data.calculate_tilt_angles() # calls back into the old boy to run its thing
         
         if not self.fig:
             self.fig = plt.figure()
             
-        # Use 2D plot for angles
+        # 2D plot for angles rather than the 3D thingies
         self.ax = self.fig.add_subplot()
         self.ax.plot(self.data.timestamps, self.data.tilt_xz, label='XZ Tilt')
         self.ax.plot(self.data.timestamps, self.data.tilt_xy, label='XY Tilt')
@@ -136,7 +139,47 @@ class AccelerometerVisualiser:
         
     def animate_normalised_vectors(self):
         #option here to choose whether you want to do this animation through acceleration data or tilt (the vector arrow will show up all the same)
-        print("")
+        if not self.fig or not self.ax:
+            self.setup_plot()
+        
+        self.ax.set_xlim([-1.25, 1.25])
+        self.ax.set_ylim([-1.25, 1.25])
+        self.ax.set_zlim([-1.25, 1.25])
+        
+        start = [0,0,0]
+        for i in range(len(self.data.x)):
+            self.ax.quiver(start[0], start[1], start[2], self.data.unit_vector[i][0], self.data.unit_vector[i][1], self.data.unit_vector[i][2])
+            
+            
+        self.ax.view_init(10,10,10)
+        return self
+            # plt.cla() -- clears the plot
+        
+"""
+v = [0,5,4]
+q = [7,-8,10]
+
+fig = plt.figure()
+ax = plt.axes(projection = '3d')
+ax.set_xlim([-10, 10])
+ax.set_ylim([-10,10])
+ax.set_zlim([-10,10])
+
+start = [-10,-10,-10]
+for i in range(15):
+    u = [i,(i+1),(i-1)]
+    ax.quiver(start[0], start[1], start[2], u[0], u[1], u[2])
+    plt.pause(1)
+    plt.cla()
+    
+    # Reset the limits after clearing the axes
+    ax.set_xlim([-10, 10])
+    ax.set_ylim([-10, 10])
+    ax.set_zlim([-10, 10])
+
+ax.view_init(10, 10, 10)
+plt.show()
+"""
         
     
 def main():
@@ -144,11 +187,15 @@ def main():
     
     visualiser = AccelerometerVisualiser(accel_data)
     
+    normalising = AccelerometerData("sensor_log.csv").normalise_data()
+    
+    normal = AccelerometerVisualiser(normalising)
+    
     to_choose = True
     
     while to_choose:
         try:
-            choices = int(input("Choose the type of visualisation for your sensor data:\n1. Vector Visualisation With Acceleration Data\n2. Vector Visualisation With Tilt Data\n\nPress '0' to quit.\n"))
+            choices = int(input("Choose the type of visualisation for your sensor data:\n1. Vector Visualisation With Acceleration Data\n2. Vector Visualisation With Tilt Data\n3. Normalised Vector Visualisation\nPress '0' to quit.\n"))
             if choices == 0:
                 print("Thank you for participating.")
                 to_choose = False
@@ -162,6 +209,11 @@ def main():
             
             elif choices == 2:
                 visualiser.display_tilt_angles()
+                plt.show()
+                to_choose = False
+                break
+            elif choices == 3:
+                normal.animate_normalised_vectors()
                 plt.show()
                 to_choose = False
                 break
