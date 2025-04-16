@@ -141,46 +141,26 @@ class AccelerometerVisualiser:
         #option here to choose whether you want to do this animation through acceleration data or tilt (the vector arrow will show up all the same)
         if not self.fig or not self.ax:
             self.setup_plot()
-        
-        self.ax.set_xlim([-1.25, 1.25])
-        self.ax.set_ylim([-1.25, 1.25])
-        self.ax.set_zlim([-1.25, 1.25])
+        num = 1
+        time_ms = 25
+        inp_time = time_ms/1000
+        self.ax.set_xlim([-num, num])
+        self.ax.set_ylim([-num, num])
+        self.ax.set_zlim([-num, num])
         
         start = [0,0,0]
         for i in range(len(self.data.x)):
             self.ax.quiver(start[0], start[1], start[2], self.data.unit_vector[i][0], self.data.unit_vector[i][1], self.data.unit_vector[i][2])
+            plt.pause(inp_time)
+            plt.cla() # clears the plot entirely so that the next arrow can show
             
+            # Reset the limits after clearing the axes
+            self.ax.set_xlim([-num, num])
+            self.ax.set_ylim([-num, num])
+            self.ax.set_zlim([-num, num])
             
         self.ax.view_init(10,10,10)
         return self
-            # plt.cla() -- clears the plot
-        
-"""
-v = [0,5,4]
-q = [7,-8,10]
-
-fig = plt.figure()
-ax = plt.axes(projection = '3d')
-ax.set_xlim([-10, 10])
-ax.set_ylim([-10,10])
-ax.set_zlim([-10,10])
-
-start = [-10,-10,-10]
-for i in range(15):
-    u = [i,(i+1),(i-1)]
-    ax.quiver(start[0], start[1], start[2], u[0], u[1], u[2])
-    plt.pause(1)
-    plt.cla()
-    
-    # Reset the limits after clearing the axes
-    ax.set_xlim([-10, 10])
-    ax.set_ylim([-10, 10])
-    ax.set_zlim([-10, 10])
-
-ax.view_init(10, 10, 10)
-plt.show()
-"""
-        
     
 def main():
     accel_data = AccelerometerData("sensor_log.csv").load_data()
@@ -230,4 +210,3 @@ if __name__ == "__main__": # I have seen this be done and I think it's kinda sil
     main()
 
 """         
-
