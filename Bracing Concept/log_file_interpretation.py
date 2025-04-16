@@ -3,23 +3,6 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import math
 
-"""Issues brought up
-    1. can be more efficient with the csv module I imported
-    2. need to understand this logic about plotting
-    3. reformat this using classes because this will increasinly get messy and I would also want the option of:
-        a. switching between position displaying
-        b. normalised display
-        c. tilt angles
-        d. acceleration values
-        e. critical tilt angles
-        f. maximum acceleration values beyond which we ignore (error handling?)
-        
-    probably need this for the .csv thing:
-        https://docs.python.org/3/library/csv.html
-        
-    """
-
-
 class AccelerometerData:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -55,7 +38,6 @@ class AccelerometerData:
                         self.y.append(local_y)
                         self.z.append(local_z)
                      
-                    
                     except ValueError:
                         print("Input {i} is invalid") # an almost redundant prompt
                         
@@ -76,7 +58,6 @@ class AccelerometerData:
     def normalise_data(self):
         if not self.data_loaded:
             self.load_data()
-            
         
         for i in range(len(self.x)):
             mag_acc = math.hypot(self.x[i], self.y[i], self.z[i])
@@ -84,10 +65,7 @@ class AccelerometerData:
             acc_unit_vector = (unit_x, unit_y, unit_z)
             self.unit_vector.append(acc_unit_vector)
             
-
-            
         return self
-
 
 class AccelerometerVisualiser:
     def __init__(self, data):
@@ -164,13 +142,9 @@ class AccelerometerVisualiser:
     
 def main():
     accel_data = AccelerometerData("sensor_log.csv").load_data()
-    
     visualiser = AccelerometerVisualiser(accel_data)
-    
     normalising = AccelerometerData("sensor_log.csv").normalise_data()
-    
     normal = AccelerometerVisualiser(normalising)
-    
     to_choose = True
     
     while to_choose:
@@ -210,3 +184,4 @@ if __name__ == "__main__": # I have seen this be done and I think it's kinda sil
     main()
 
 """         
+
