@@ -137,6 +137,11 @@ class AccelerometerVisualiser:
             self.ax.set_ylim([-num, num])
             self.ax.set_zlim([-num, num])
             
+            self.ax.set_xlabel('X Axis')
+            self.ax.set_ylabel('Y Axis')
+            self.ax.set_zlabel('Z Axis')
+            self.ax.set_title('Normalised Vector Positioning')
+            
         self.ax.view_init(10,10,10)
         return self
     
