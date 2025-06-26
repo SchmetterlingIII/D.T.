@@ -16,3 +16,6 @@ Goals (before Friday):
 - Design (and send to print out, although to be seen & handled only on Monday) the other aspects of the base to have that all completed.
 - Pseudocode how to approach ergonomic focus over the summer (since I have not done much explicit designing -- and a portfolio needs to be developed of this final model...)
 - Review and pseudocode the technical aspects of the whole project and plan on completing them
+
+## Short-Term Improvements
+[] The
