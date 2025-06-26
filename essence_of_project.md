@@ -18,7 +18,7 @@ Goals (before Friday):
 - Review and pseudocode the technical aspects of the whole project and plan on completing them
 
 ## Short-Term Improvements
-*** This will have a deadline of 3 weeks: 17/07/25  ***
+***This will have a deadline of 3 weeks: 17/07/25***
 - Having all components of the base 3D printed out
     - Already nearly finished with that, just need to finalise the securing points for the breadboard
 - Writing the extensive pseudocode for the rest of the project
