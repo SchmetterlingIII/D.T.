@@ -18,4 +18,16 @@ Goals (before Friday):
 - Review and pseudocode the technical aspects of the whole project and plan on completing them
 
 ## Short-Term Improvements
-[] The
+*** This will have a deadline of 3 weeks: 17/07/25  ***
+- Having all components of the base 3D printed out
+    - Already nearly finished with that, just need to finalise the securing points for the breadboard
+- Writing the extensive pseudocode for the rest of the project
+- Coding dynamic models of the forward kinematics simulation
+    - With respect to physics, could do a pendulum (that uses matrices for its calculations in an iterative way - maybe less included in the portfolio but a good basis for Cambridge University)
+    - From that:
+        - Displaying some data live from this
+        - Spline interpolation from this (maybe statically with randomly instanced points as an intro)
+- More complex spline interpolation:
+    - Defining the range and domain of the function iteratively
+    - Checking if it has exceeded a predefined range and having the display change according to that
+    - {having some interactive model} <!-- entirely unnecessary -->
