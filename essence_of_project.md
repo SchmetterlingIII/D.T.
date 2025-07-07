@@ -1,4 +1,10 @@
 # The Essence of My D.T. Coursework
+***Inspiration:***
+*This didn't inspire the project, but is necessary to include somewhere since it is very good.*
+
+https://isef.net/project/enbm069-dynamic-robotic-brace-for-spinal-deformity
+
+
 I would like to design a product that can make people more aware of their posture, with the hope of this being commercialised in the future. 
 
 Areas of consideration:
