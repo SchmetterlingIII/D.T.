@@ -1,39 +1,15 @@
-# The Essence of My D.T. Coursework
-***Inspiration:***
-*This didn't inspire the project, but is necessary to include somewhere since it is very good.*
+## D.T. Progression 
+1. Cubic Spline (to finish first area by Sunday)
+    *Currently working on a OneNote for this to work well.*
+    - Understand how to produce dynamic cubic splines 
+    - Understand how to have splines in 3D as well
 
-https://isef.net/project/enbm069-dynamic-robotic-brace-for-spinal-deformity
+2. Aesthetics (all of next week)
+    - Current sketches although promising are not developed to any depth
+    - There has been no CAD work over the holidays & the shrinking of the component distribution to be thin across the body has been neglected
+    - The sketches produced can very quickly and easily be iterated to something I am more proud of
 
-
-I would like to design a product that can make people more aware of their posture, with the hope of this being commercialised in the future. 
-
-Areas of consideration:
-- Technicalities (code & maths)
-- Ergonomics & Design (aesthetics & useability)
-- Data & Iterations (for the refinement of models (whether designed or programmed))
-
-## Current Evaluation
-25/06/25: There has been a bias toward the technicalities of this project and a neglect for the design of it. The pace of work is relatively slow and inefficient as what I want to make for each section seems to be impulsive and not sustained research. 
-I have two days for the next submission. 
-
-Goals (before Friday):
-- Complete all empty aspects of inDesign
-- Finish iterating base housing model
-- Design (and send to print out, although to be seen & handled only on Monday) the other aspects of the base to have that all completed.
-- Pseudocode how to approach ergonomic focus over the summer (since I have not done much explicit designing -- and a portfolio needs to be developed of this final model...)
-- Review and pseudocode the technical aspects of the whole project and plan on completing them
-
-## Short-Term Improvements
-***This will have a deadline of 3 weeks: 17/07/25***
-- Having all components of the base 3D printed out
-    - Already nearly finished with that, just need to finalise the securing points for the breadboard
-- Writing the extensive pseudocode for the rest of the project
-- Coding dynamic models of the forward kinematics simulation
-    - With respect to physics, could do a pendulum (that uses matrices for its calculations in an iterative way - maybe less included in the portfolio but a good basis for Cambridge University)
-    - From that:
-        - Displaying some data live from this
-        - Spline interpolation from this (maybe statically with randomly instanced points as an intro)
-- More complex spline interpolation:
-    - Defining the range and domain of the function iteratively
-    - Checking if it has exceeded a predefined range and having the display change according to that
-    - {having some interactive model} <!-- entirely unnecessary -->
+3. Human Centered Modelling (seeing how to make this accurate; reaching out to professionals)
+    - Complete the technical background for the cubic spline then reach out for help on the positioning of the sensors on the back and how to read that someone is slouching (that is mathematical but I need the medical intuition even if I do know the maths)
+    - Send this off to researchers in the UK to see whether I can work on this in a lab for a week and have some industry guidance; talk to some people on LinkedIn to check out the project and see what's up
+        - Area: robotics, bioengineering, information engineering, design engineering
