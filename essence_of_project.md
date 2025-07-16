@@ -6,7 +6,7 @@ Designing a posture correction device aimed at heightening the awareness of user
 
 --------------
 
-**Sections: ***
+**Sections:**
 - Cubic spline monitoring: *Converting the inputted sensor data into something that replicates the spine.*
 - Aesthetics: *Trying to consider what it is users actually want, and abstracting the complexity such that users can focus on the data and not how it works.*
 - Research & Outreach: *Reaching out to users and researchers to the improvements of the initial models that I have, with corresponding deadlines to each of these goals so that there is constant momentum in my work.*
@@ -15,6 +15,8 @@ Designing a posture correction device aimed at heightening the awareness of user
 
 1. Cubic Spline
 *There is a OneNote page with works on this (screenshotted below):*
+
+
 ![alt text](image.png)
 ![alt text](image-1.png)
 
