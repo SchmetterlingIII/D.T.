@@ -8,6 +8,7 @@ The system includes a calibration phase to establish a baseline "good" posture a
 The output from this includes 3D visualization of the sensor positions and spline, and 2D plotting of the curvature. *This will be improved with a more accurate digital twin of the spine by not restricting myself to cubic interpolation*.
 
 Below is my most recent render of this, using Fusion360:
+![alt text](image.png)
 
 *This project serves as a proof of concept and developments to it should be:*
 - Moving towards B-spline interpolation (in which the parameters can be more fine-tuned)
