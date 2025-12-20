@@ -10,7 +10,7 @@ The output from this includes 3D visualization of the sensor positions and splin
 Below is my most recent render of this, using Fusion360:
 
 <div align="center">
-  <img width="727" height="989" src="https://github.com/user-attachments/assets/ded5f4ca-c223-417f-8d50-ff7c55b66638" />
+  <img width="145.5" height="197.8" src="https://github.com/user-attachments/assets/ded5f4ca-c223-417f-8d50-ff7c55b66638" />
   <br>
   <em>Figure 1: Fusion360 Render of the Spline Mechanism</em>
 </div>
