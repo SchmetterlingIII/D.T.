@@ -16,3 +16,7 @@ I have, in fact, not finished this code since it didn't run well: there are a mu
 - torsion (I will have the display of the results be a bunch of normal vector quivers, whose base is the interpolated position)
 - ML (love the idea of ML but not sure how difficult it will be)
 
+### CONCLUSION
+To conclude all of this, by the deadline for this project (**January 31st**) all of this code and the physical prototype needs to be completed. 
+After this point, I will do a writeup of everything that I have done in a `LaTeX` file that I will accompany when I send off initial cold messages and then more detailed emails (and suggestions for calls) during February and March. I would like to also integrate the work that Lexus has been doing such that I have two selling points for them (so that I actually get this internship): the code and ability to help with the techincalities of this **and** the human-centred aspect (by having interviews and understanding what physiotherapists actually need from such a rehabilitiation device). Then say something on how their work (*knitted textiles rather than bulky IMUs*) is the next step for this (and also maintains their workflow and interests. 
+
