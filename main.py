@@ -49,8 +49,9 @@ try:
             # parse the csv into on stringed list
             IMU_ID_LIST = [id.strip() for id in channels_part.split(",") if id.strip()]
         if "Number of sensors: " in line:
-           ID_NUM = int(line.strip(":")[-3]) # the number of read sensors, last instance is "\n" and so index = -3 is the appropriate index
-           imu_deques = [deque(maxlen=50) for i in range(ID_NUM)] # lowercase for downstream effects
+            ID_NUM = int(line.strip(":")[-3]) # the number of read sensors, last instance is "\n" and so index = -3 is the appropriate index
+            imu_deques = [deque(maxlen=50) for i in range(ID_NUM)] # lowercase for downstream effects
+            imu_objects = [IMU(i) for i in range(ID_NUM)]
         if "Waiting for 'begin program' command" in line:
             break
 
@@ -67,75 +68,74 @@ try:
     serialInst.write(b'begin program') # sent in bytes rather than a high level string since it is sent to back to the compiler
 
     time.sleep(2)
-    
-    def angle_tilt_filter(IMU_data, dt):
-        '''
-        https://www.youtube.com/watch?v=7VW_XVbtu9k
-        Use the above video to extract the angle between each of the IMUs.
 
-        This is less susceptible to gyro tilt over time
+    class IMU:
+        def __init__(self, imu_id):
+            self.id = imu_id
+            
+            self.roll = 0
+            self.pitch = 0 
 
-        Return: normalised matrix containing the vector values of each of the filtered IMUs using this angle extraction method.
-        '''
+            self.alpha = 0.98 # filter constant
 
-        '''
-        each data is streamed one at a time.
-        find the local pitch and yaw
-        from these angles, get the appropriate direction vector
-        store into the matrix
+            self.first_run = True 
+            
+        def update(self, raw_data, dt):
+            '''
+            https://www.youtube.com/watch?v=7VW_XVbtu9k
+            Use the above video to extract the angle between each of the IMUs.
+            This is less susceptible to gyro tilt over time and is the approach used for simplistic aerospeace projects
+            '''
+            ax, ay, az, gx, gy, gz = raw_data
 
-        return np.array([(), (), (), ..., ()])
-        '''
-        ax, ay, az, gyro_x, gyro_y, gyro_z = IMU_data
+            accel_roll = np.arctan2(ay, az)
+            accel_pitch = np.arctan2(-ax, np.sqrt(ay**2 + az**2))
+            # initialise if first data point
+            if self.first_run:
+                self.roll = accel_roll
+                self.pitch = accel_pitch
+                self.first_run = False
+                return          
+                
+            gx, gy, gz *= (np.pi/180) # MPU6050 gives data in degrees/s; this converts to rad/s
 
-        accel_angle_x = np.arctan2(ay, az) # about the x-axis
-        accel_angle_y = np.arctan2(ax, az) # about the y-axis
+            self.roll = self.alpha * (self.roll + gx * dt) + (1 - self.alpha) * accel_roll
+            self.pitch = self.alpha * (self.pitch + gy * dt) + (1 - self.alpha) * accel_pitch
 
-        gyro_x += gyro_x * dt
-        gyro_y += gyro_y * dt
+        def kalman_filter(self, raw_data, dt):
+            '''
+            https://www.youtube.com/watch?v=5HuN9iL-zxU&list=PLeuMA6tJBPKsAfRfFuGrEljpBow5hPVD4&index=18
+            A more accurate filtering system that will further reduce the error in these calculations
+            '''
+            return None
 
-        # rather than a filter yet, I will just have a bias towards angular tilt
-        # these numbers are arbitrary (copied from the video) but I will move onto Kalman filtering later
-        fused_angle_x = 0.98 * (gyro_x) + 0.02 * accel_angle_x # roll
-        fused_angle_y = 0.98 * (gyro_y) + 0.02 * accel_angle_y # pitch
+        def get_direction_vectors(self):
+            '''
+            Returns (normal, y_direction) based on current state. 
+            
+            `normal`: to reinforce calculations of curvature (later hopefully used for torsion calculations) 
+            `y-direction`: to be used for the forwards kinematics algorithm (since it would point upwards along the spine)
+            '''
+            # Pre-compute sines and cosines
+            cr = np.cos(self.roll) # cos(roll)
+            sr = np.sin(self.roll) # sin(roll)
+            cp = np.cos(self.pitch) # cos(pitch)
+            sp = np.sin(self.pitch) # sin(pitch)
 
-        normal, y_direction = angles_to_direction_vector(fused_angle_x, fused_angle_y)
-
-        return normal, y_direction
-
-    def angles_to_direction_vector(roll, pitch):
-        '''
-        Calculates normal vector and direction vector in direction of y-axis.
-
-        The y-axis direction vector will be used for the forward kinematics; the normal vector will reinforce calculations of curvature (and be the precursor to having a 3D understanding of curvature along the spine).
-        '''
-        # normal
-        normal = np.array([
-            np.sin(pitch) * np.cos(roll),
-            -np.sin(roll),
-            np.cos(roll) * np.cos(pitch)
-        ])
-
-        # y direction
-        y_direction = np.array([
-            np.sin(pitch) * np.sin(roll),
-            np.cos(roll),
-            np.cos(pitch) * np.sin(roll)
-        ])
-
-        normal = normal / np.linalg.norm(normal)
-        y_direction = y_direction / np.linalg.norm(y_direction)
-
-        return normal, y_direction
-
-    def kalman_filter(angle_filtered_data):
-        '''
-        https://www.youtube.com/watch?v=5HuN9iL-zxU&list=PLeuMA6tJBPKsAfRfFuGrEljpBow5hPVD4&index=18
-        Another tutorial that will help me actually have an accurate input of the data, without resorting to l'IA or learning the maths behind this.
-
-        I will look into how Kalman filters work from a high level but if there is a python module for it then I will be happy to just copy it.
-        '''
-        return filtered_data
+            y_direction = np.array([
+                sp * sr, 
+                cr,      
+                cp * sr  
+            ])
+            
+            normal = np.array([
+                sp * cr,
+                -sr,
+                cp * cr
+            ])
+            
+            #  noramlised to prevent scaling errors
+            return (normal / np.linalg.norm(normal), y_direction / np.linalg.norm(y_direction))
 
     def forward_kinematics(filtered_data, linear_distances):
         '''
@@ -410,11 +410,17 @@ try:
                 print(f"Warning: Recieved data from unknown data channel @ ID:{imu_id}")
 
             # if there is data in all the imu_deques
-            if all(imu_deques):
+            if all(len(deque) > 0 for deque in imu_deques):
+                # how is data accurately assigned for each of the IMUs in the channel if there isn't a call that it is, e.g, the 5th IMU that we are reading from.
+                # otherwise, this feels quite arbitrary. 
+                
                 # using the data from the imu, get the most specific direction vector positions 
                 filtered_data = []
-                for i in range(len(imu_deques)):
-                    ___, vector_direction = angle_tilt_filter(imu_deques[i][-1], dt) # (the first output vector will be used for torsion calculations, with the orientation of data changing; for this test, the 'y-direction' is all that is needed)
+                for i in range(len(imu_objects)):
+                    raw_vals = imu_deques[i][-1] # get raw data from deque
+                    imu_objects[i].update(raw_vals, dt) # I do not understand how this can specify the specific IMU if the channelling isn't entirely clean/ordered. what are assumptions about this class
+                
+                    ___, vector_direction = imu_objects[i].get_direction_vectors()
                     filtered_data.append(vector_direction)
                 
                 # using this, do forward kinematics
@@ -491,4 +497,5 @@ except Exception as e:
     exc_type, exc_value, exc_traceback = sys.exc_info()
     line_number = exc_traceback.tb_lineno
     print(f"ERROR: {e}, line {line_number}")
+
 
