@@ -13,8 +13,6 @@ from scipy.interpolate import CubicSpline
 import scipy
 import sys
 
-########################
-
 BAUDRATE = 115200
 try:
     '''
@@ -70,7 +68,6 @@ try:
 
     time.sleep(2)
     
-########################
     def angle_tilt_filter(IMU_data, dt):
         '''
         https://www.youtube.com/watch?v=7VW_XVbtu9k
@@ -200,7 +197,11 @@ try:
         r_prime = np.array([xc(plot_t, 1), yc(plot_t, 1), zc(plot_t, 1)]).T
         r_double_prime = np.array([xc(plot_t, 2), yc(plot_t, 2), zc(plot_t, 2)]).T
 
-        kappa = (np.linalg.norm(np.cross(r_prime, r_double_prime)))/(np.linalg.norm(r_prime)**3)
+        cross_prod = np.cross(r_prime, r_double_prime, axis=1)
+        numerator = np.linalg.norm(cross_prod, axis=1)
+        denominator = np.linalg.norm(r_prime, axis=1)**3
+        kappa = numerator / denominator
+
         return kappa # an array of scalar values for the curvature along this interpolated spline
     
     class SpineAnalysis:
@@ -370,6 +371,7 @@ try:
     
     spine_instance = None # the variable that will hold the class 
     last_update_time = time.time() # so that the dt structure in the function doesn't just die
+    margin = 0.1 # just didn't want to put in the animate function
 
     def animate(i):
         global spine_instance, last_update_time
@@ -438,21 +440,22 @@ try:
                         print("Calibration Completed")
 
                 # collect the data as usual for the posture detection
-                spine_instance.posture_detector(curvature_instance)
+                if not spine_instance.is_calibrating:
+                    spine_instance.posture_detector(curvature_instance)
 
-                # now run the conditional if there is a deviation 
-                sustained_threshold = 5  # currently an arbitrary value
-                if spine_instance.poor_posture_ticker >= sustained_threshold:
-                    commands = spine_instance.sustained_posture_deviance(curvature_instance)
-                    for level, motor_id in commands:
-                        cmd = f"{level},{motor_id}\n"
-                        try:
-                            serialInst.write(cmd.encode('utf-8'))
-                        except Exception as e:
-                            print("Failed to send command:", e)
-                    # reset ticker and deviance list
-                    spine_instance.poor_posture_ticker = 0
-                    spine_instance.deviance_indices = []
+                    # now run the conditional if there is a deviation 
+                    sustained_threshold = 5  # currently an arbitrary value
+                    if spine_instance.poor_posture_ticker >= sustained_threshold:
+                        commands = spine_instance.sustained_posture_deviance(curvature_instance)
+                        for level, motor_id in commands:
+                            cmd = f"{level},{motor_id}\n"
+                            try:
+                                serialInst.write(cmd.encode('utf-8'))
+                            except Exception as e:
+                                print("Failed to send command:", e)
+                        # reset ticker and deviance list
+                        spine_instance.poor_posture_ticker = 0
+                        spine_instance.deviance_indices = []
 
                 # 3D plot of interpolated spine
                 line.set_data(xc(plot_t), yc(plot_t))
@@ -463,10 +466,10 @@ try:
                 y = curvature_instance
                 curv_line.set_data(x, y)
                 
-                ax.relim()
-                ax.autoscale_view()
-                ax2.relim()
-                ax2.autoscale_view()
+                all_points = np.column_stack([xc(plot_t), yc(plot_t), zc(plot_t)])
+                ax.set_xlim(all_points[:,0].min()-margin, all_points[:,0].max()+margin)
+                ax.set_ylim(all_points[:,1].min()-margin, all_points[:,1].max()+margin)
+                ax.set_zlim(all_points[:,2].min()-margin, all_points[:,2].max()+margin)
                 
         except Exception as e:
             import traceback
