@@ -51,7 +51,6 @@ try:
         if "Number of sensors: " in line:
             ID_NUM = int(line.strip(":")[-3]) # the number of read sensors, last instance is "\n" and so index = -3 is the appropriate index
             imu_deques = [deque(maxlen=50) for i in range(ID_NUM)] # lowercase for downstream effects
-            imu_objects = [IMU(i) for i in range(ID_NUM)]
         if "Waiting for 'begin program' command" in line:
             break
 
@@ -95,9 +94,10 @@ try:
                 self.roll = accel_roll
                 self.pitch = accel_pitch
                 self.first_run = False
-                return          
-                
-            gx, gy, gz *= (np.pi/180) # MPU6050 gives data in degrees/s; this converts to rad/s
+                return
+            
+            factor = np.pi/180
+            gx, gy, gz = gx * factor, gy * factor, gz * factor # MPU6050 gives data in degrees/s; this converts to rad/s
 
             self.roll = self.alpha * (self.roll + gx * dt) + (1 - self.alpha) * accel_roll
             self.pitch = self.alpha * (self.pitch + gy * dt) + (1 - self.alpha) * accel_pitch
@@ -273,7 +273,7 @@ try:
                         if self.poor_posture_ticker >= ['some defined value'] and ['the mean length of the lists in self.deviance_indices is greater than some value (so that noise doesn't cause the whole system to crash)']; reroute this function to a different handling one automatically
             '''
             curvature_instance = np.array(curvature_instance)
-            if not self.calibrated_data:
+            if len(self.calibrated_data) == 0:
                 self.output_calibration_data()
             
             # if there is no current instance of poor posture (i.e no timer) then empty the list for the deviances
@@ -372,7 +372,9 @@ try:
     spine_instance = None # the variable that will hold the class 
     last_update_time = time.time() # so that the dt structure in the function doesn't just die
     margin = 0.1 # just didn't want to put in the animate function
-
+    
+    imu_objects = [IMU(i) for i in range(ID_NUM)]
+    
     def animate(i):
         global spine_instance, last_update_time
 
@@ -485,7 +487,7 @@ try:
             print(f"{'='*60}\n")
             return line, curv_line
 
-    anim = FuncAnimation(fig, animate, cache_frame_data=False, interval=100, blit=False) # blitting only draws the dynamic aspects of the plot
+    anim = FuncAnimation(fig, animate, cache_frame_data=False, interval=500, blit=False) # blitting only draws the dynamic aspects of the plot
     # apprently blitting in 3d is less cool so I got rid of it 
 
     ax.set_box_aspect([1,1,1])
@@ -497,5 +499,3 @@ except Exception as e:
     exc_type, exc_value, exc_traceback = sys.exc_info()
     line_number = exc_traceback.tb_lineno
     print(f"ERROR: {e}, line {line_number}")
-
-
