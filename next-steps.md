@@ -1,8 +1,16 @@
 I have, in fact, not finished this code since it didn't run well: there are a multitude of small errors that have been made and need addressing. 
 
+# Before end of holidays:
+*This is the most important list:*
+1. - spring calculations to order the correct springs of the right spring constant (as well as how to properly integrate that in a testable chain first)
+2. - design of encasing for the exhibition ('A suspension in strings')
+   - complete this in CAD asw (and make sure it looks very cool)
+3. - Iterate on the vertebral pieces (since they look alright but could be more functional and help with the spring attachment or something else, be expansive)
+4. - upper connector is much too small and design not human centred at all (it will reach onto the neck but is quite bulkly and doesn't spread across well) # have some sketches and iterate it (such that printing off will be good)
+5. - Finish the inDesign (up until the point of printing everything out and assembling)
+   - it should also include detail as to why I have designed certain things (going into a robotics vibe) as well as further explaining the code (and how it will be improved later to help the user with a front-facing app).
+
 ### Physical Design
-- upper connector is much too small and design not human centred at all (it will reach onto the neck but is quite bulkly and doesn't spread across well)
-- spring calculations to order the correct springs of the right spring constant (as well as how to properly integrate that in a testable chain first)
 - foam additions and observations for the design (*although this will take place in quite some time once everything is assembled*)
 
 ### Computation
@@ -19,4 +27,5 @@ I have, in fact, not finished this code since it didn't run well: there are a mu
 ### CONCLUSION
 To conclude all of this, by the deadline for this project (**January 31st**) all of this code and the physical prototype needs to be completed. 
 After this point, I will do a writeup of everything that I have done in a `LaTeX` file that I will accompany when I send off initial cold messages and then more detailed emails (and suggestions for calls) during February and March. I would like to also integrate the work that Lexus has been doing such that I have two selling points for them (so that I actually get this internship): the code and ability to help with the techincalities of this **and** the human-centred aspect (by having interviews and understanding what physiotherapists actually need from such a rehabilitiation device). Then say something on how their work (*knitted textiles rather than bulky IMUs*) is the next step for this (and also maintains their workflow and interests. 
+
 
