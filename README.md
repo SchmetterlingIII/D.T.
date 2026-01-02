@@ -9,17 +9,21 @@ The output from this includes 3D visualization of the sensor positions and splin
 
 Below is my most recent render of this, using Fusion360:
 
+
+
+
 <div align="center">
-  <img width="291" height="395.6" src="https://github.com/user-attachments/assets/ded5f4ca-c223-417f-8d50-ff7c55b66638" />
+  <img width="767" height="730" alt="image" src="https://github.com/user-attachments/assets/d7f734c0-fb24-4f65-bf8c-c8e47de86be8" />
   <br>
   <em>Figure 1: Fusion360 Render of the Spline Mechanism</em>
 </div>
 
 
 *This project serves as a proof of concept and developments to it should be:*
-- Moving towards B-spline interpolation (in which the parameters can be more fine-tuned)
-- Using quaternions to handle the tilt (to avoid gimbal lock)
-- Implementation of sensor fusion (with both accelerometer and gyroscope data)
+- Using quaternions to handle the tilt (to avoid gimbal lock) & Kalman Filtering (as a more accurate sensor fusion) 
+- Exports of data in SQLite databases (with the hope of applying ML within the calibration phase to make the feedback more personalised)
+- Using torsion rather than curvature to detect more complex movements
 - Integration of haptic motors for user feedback
+- Design of a front facing UI that renders the digital twin of the spine 
 
 Further, I would be interested in the embedding of sensors this within textile technology (like the textiles in *Imperial's e-Body Lab*) so that they can discretely be integrated into clothing: this approach would require the conversion of stress within these sensors to curvature. 
