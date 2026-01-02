@@ -18,8 +18,7 @@ Below is my most recent render of this, using Fusion360:
   <em>Fusion360 render of exoskeleton design: I intend to migrate towards sensors integrated within textiles since they are much more discrete.</em>
 </div>
 
-
-*This project serves as a proof of concept and developments to it should be:*
+### Further Improvements
 - Using quaternions to handle the tilt (to avoid gimbal lock) & Kalman Filtering (as a more accurate sensor fusion) 
 - Exports of data in SQLite databases (with the hope of applying ML within the calibration phase to make the feedback more personalised)
 - Using torsion rather than curvature to detect more complex movements
