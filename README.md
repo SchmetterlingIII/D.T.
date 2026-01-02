@@ -15,7 +15,7 @@ Below is my most recent render of this, using Fusion360:
 <div align="center">
   <img width="767" height="730" alt="image" src="https://github.com/user-attachments/assets/d7f734c0-fb24-4f65-bf8c-c8e47de86be8" />
   <br>
-  <em>Figure 1: Fusion360 Render of the Spline Mechanism</em>
+  <em>Fusion360 render of exoskeleton design: I intend to migrate towards sensors integrated within textiles since they are much more discrete.</em>
 </div>
 
 
