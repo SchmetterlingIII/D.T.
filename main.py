@@ -99,8 +99,17 @@ try:
             factor = np.pi/180
             gx, gy, gz = gx * factor, gy * factor, gz * factor # MPU6050 gives data in degrees/s; this converts to rad/s
 
-            self.roll = self.alpha * (self.roll + gx * dt) + (1 - self.alpha) * accel_roll
-            self.pitch = self.alpha * (self.pitch + gy * dt) + (1 - self.alpha) * accel_pitch
+            # roll
+            gyro_roll = self.gyro_roll + gx * dt  # gyro angle measured
+            self.roll = self.alpha * gyro_roll + (1 - self.alpha) * accel_roll # sensor fusion
+
+            # pitch
+            gyro_pitch = self.gyro_pitch + gx * dt
+            self.pitch = self.alpha * gyro_pitch + (1 - self.alpha) * accel_pitch
+
+            # updates
+            self.gyro_roll = self.roll  
+            self.gyro_pitch = self.pitch  
 
         def kalman_filter(self, raw_data, dt):
             '''
@@ -499,3 +508,4 @@ except Exception as e:
     exc_type, exc_value, exc_traceback = sys.exc_info()
     line_number = exc_traceback.tb_lineno
     print(f"ERROR: {e}, line {line_number}")
+
