@@ -72,8 +72,8 @@ try:
         def __init__(self, imu_id):
             self.id = imu_id
             
-            self.roll = 0
-            self.pitch = 0 
+            self.gyro_roll = 0
+            self.gyro_pitch = 0 
 
             self.alpha = 0.98 # filter constant
 
